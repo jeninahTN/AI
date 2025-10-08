@@ -1,43 +1,153 @@
-# AI
-Artificial Intelligence
-Question
-1. Maze Problem
- Given a 5x5 (or 10x10) grid maze, identify:
- a) Start state
- b) Goal state
- c) Possible actions from each cell
- d) A valid solution path using BFS, and all other search strategies
-2. You are designing an AI system for ambulance dispatch in a city. Define the state space, actions, goal, and path cost for 
-this problem. Suggest a suitable search strategy and justify your choice.
+# Student Performance Analysis
 
-Solution
-1. a) (0,0)
-   b) (4,4)
-   c) UP (-1,0), Right(0,1), Down(1,0), Left(0,-1)
-   d) BFS - (0,0) , (0,1) , (0,2) , (1,2) , (2,2) , (2,3) , (2,4) , (3,4) , (4,4)
-      DFS - From (0,0), it tries Up (invalid), then Right to (0,1), then (0,2).
-            Next it tries Up (blocked), then Right to (0,3) (blocked), then Down to (1,2).
-            It keeps going deep until it eventually finds (4,4).
-      UCS (Uniform Cost Search)- UCS expands the path with the lowest cost so far.
-                                 Since every step costs 1 in the maze, UCS behaves the same as BFS.
-                                  UCS path = same as BFS: [(0,0) , (0,1) , (0,2) , (1,2) , (2,2) , (2,3) , (2,4) , (3,4) , (4,4)]
-     Greedy Best-First Search - From (0,0), Greedy always picks the node that looks closest to (4,4).
-                                This often causes it to head towards the goal in a straight line, even if blocked → it may waste time backtracking.
-                               In the  maze, Greedy would likely try to go right/down toward (4,4) quickly, but get stuck at the wall of # around (3,1)–(3,3).
-                               It will eventually find the goal, but possibly with a less optimal path than A*.
-     A* Search - It balances progress-so-far with closeness-to-goal.
-                 It will take the same optimal path as BFS/UCS, but usually expands fewer nodes.
-                 Path will be the  same as BFS/UCS, but  a more efficient search.
+A comprehensive analysis of student performance using the UCI Student Performance Dataset. This project implements all six parts of the analysis as specified in the requirements.
 
-   2. state space - Each state is the ambulance’s location on the city grid.
-                    A state is represented as a tuple (row, col). i.e (0,0) means the ambulance is at the top-left corner.
-      actions - From any state (r, c), the ambulance can move: Up, Down, Left, Right. i.e  (1,0), (-1,0), (0,1), (0,-1)
-      goal - Reach the patient’s location. i.e (4,4)
-      path cost - This refers to the total number of moves from start to goal. Each move has a cost of 1 ( time or distance). Therefore, the path cost is 9 for this problem.
+## 📋 Project Overview
 
-  A suitable search strategy is A* search because it finds the shortest and most effecient path which is required for an ambulance since it handles emergencies.
+This project performs a complete analysis of student performance data including:
 
+- **Part A**: Data Loading & Preprocessing (15 points)
+- **Part B**: First EDA (20 points) 
+- **Part C**: Feature Engineering (15 points)
+- **Part D**: Second EDA & Statistical Inference (15 points)
+- **Part E**: Simple Machine Learning (25 points)
+- **Part F**: Presentation & Reflection (10 points)
 
- 
- 
+## 🚀 Quick Start
 
+### Prerequisites
+
+Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Running the Demo
+
+To see the analysis in action with sample data:
+
+```bash
+python demo_analysis.py
+```
+
+### Using Real UCI Data
+
+1. **Download the UCI Student Performance Dataset**:
+   - Visit: https://archive.ics.uci.edu/dataset/320/student+performance
+   - Download either `student-mat.csv` (Mathematics) or `student-por.csv` (Portuguese)
+
+2. **Run the analysis**:
+   ```python
+   from student_performance_analysis import StudentPerformanceAnalysis
+   
+   analyzer = StudentPerformanceAnalysis()
+   analyzer.run_complete_analysis('student-mat.csv')
+   ```
+
+## 📊 Analysis Components
+
+### Part A: Data Loading & Preprocessing
+- ✅ Load dataset and inspect columns
+- ✅ Encode categorical variables (school, sex, parental education, etc.)
+- ✅ Scale numeric features (grades, study time, absences)
+- ✅ Check for missing values and handle them
+
+### Part B: First EDA
+- ✅ Descriptive stats for grades and study time
+- ✅ Distribution plots (histograms) for grades
+- ✅ Bar charts: parental education vs average grade
+- ✅ Correlation heatmap for continuous features
+- ✅ Discussion of features that might influence final grade
+
+### Part C: Feature Engineering
+- ✅ Compute average of G1 and G2 to predict G3
+- ✅ Categorize students as pass/fail based on G3 cutoff (10/20)
+- ✅ Create combined features: study_time × absences, failures × absences
+- ✅ Discuss rationale for each feature
+
+### Part D: Second EDA & Statistical Inference
+- ✅ ANOVA: Does study time significantly affect final grade?
+- ✅ Chi-square test: Association between internet access and pass/fail
+- ✅ Visualize results: boxplots, bar charts with significance annotations
+
+### Part E: Simple Machine Learning
+- ✅ Split data into train/test sets
+- ✅ Train models: Decision Tree, Logistic Regression
+- ✅ Evaluate: Confusion matrix, Accuracy, Precision, Recall, ROC curve
+- ✅ Compute standard deviation of metrics across cross-validation folds
+- ✅ Report mean ± std format for all metrics
+
+### Part F: Presentation & Reflection
+- ✅ Summarize insights from EDA and ML
+- ✅ Discuss ethical considerations (bias, fairness)
+- ✅ Suggest additional data/features for improvement
+- ✅ Results table with mean ± std format
+- ✅ Discuss most predictive features and intervention implications
+
+## 📈 Output Files
+
+The analysis generates several visualization files:
+
+- `part_b_first_eda.png` - Initial exploratory data analysis
+- `part_d_statistical_inference.png` - Statistical test results
+- `part_e_machine_learning.png` - ML model performance
+- `executive_summary.png` - Comprehensive summary visualization
+
+## 🔍 Key Features
+
+### Statistical Analysis
+- **ANOVA testing** for study time impact on grades
+- **Chi-square testing** for categorical associations
+- **Correlation analysis** for feature relationships
+
+### Machine Learning
+- **Cross-validation** with 5-fold stratified sampling
+- **Multiple metrics** with standard deviations
+- **Feature importance** analysis
+- **ROC curve** comparison
+
+### Ethical Considerations
+- Bias detection in socioeconomic factors
+- Fairness assessment across student groups
+- Privacy and consent considerations
+- Intervention strategy recommendations
+
+## 📋 Dataset Information
+
+The UCI Student Performance Dataset contains information about student achievement in secondary education. Key attributes include:
+
+- **Demographics**: age, sex, address, family size
+- **Social**: parental education, family support, internet access
+- **School**: study time, failures, absences, extra support
+- **Grades**: G1 (first period), G2 (second period), G3 (final grade)
+
+## 🎯 Results Summary
+
+The analysis provides:
+
+1. **Predictive Models**: Decision Tree and Logistic Regression with cross-validation
+2. **Statistical Insights**: Significant factors affecting student performance
+3. **Feature Importance**: Most influential variables for academic success
+4. **Intervention Recommendations**: Data-driven suggestions for student support
+5. **Ethical Guidelines**: Considerations for fair and responsible use
+
+## 🔧 Technical Details
+
+- **Python 3.7+** required
+- **Key Libraries**: pandas, scikit-learn, matplotlib, seaborn, scipy
+- **Cross-validation**: 5-fold stratified sampling
+- **Evaluation Metrics**: Accuracy, Precision, Recall, F1-Score, ROC-AUC
+- **Statistical Tests**: ANOVA, Chi-square
+
+## 📝 License
+
+This project is for educational purposes. The UCI Student Performance Dataset is publicly available for research use.
+
+## 🤝 Contributing
+
+This is an academic project. For questions or suggestions, please refer to the analysis documentation within the code.
+
+---
+
+**Note**: This analysis demonstrates comprehensive data science methodology including preprocessing, EDA, feature engineering, statistical inference, machine learning, and ethical considerations.
